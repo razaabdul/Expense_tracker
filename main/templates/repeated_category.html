@@ -1,0 +1,32 @@
+{%  extends "base.html"  %}
+{% load static %}
+{% block body %}
+    <div  style="display: flex; margin-top: 20px;">
+        <img style="height: 500px;" src=" {% static 'pie_chart.png' %}">
+   
+
+    <table  style="background-color: white; height:500px; overflow: auto;scroll-behavior: auto; " class="table table-bordered">
+        <thead style="background-color: rgb(0, 102, 255); height: 30px;">
+          <tr >
+            <th style="color:white;">Category</th>
+            <th style="color:white;">Repeted Times</th>
+            <th style="color:white;">Total</th>
+
+        
+          </tr>
+        </thead>
+        <tbody>
+            {%  for key , value  in d %}
+          <tr>
+            <td>{{key}}</td>
+            <td>{{value.0}}</td>
+            <td>{{value.1}}₹</td>
+        </tr>
+        {% endfor %}
+        
+
+        </tbody>
+      </table>
+    </div>
+</div>
+{% endblock body %}
