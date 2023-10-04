@@ -1,0 +1,254 @@
+{% extends 'base.html' %}
+{% load static %}
+<style>
+    body{
+
+background: #eee;
+}
+
+.height{
+
+height: 100vh;
+}
+</style>
+{% block body %}
+<!-- <div class="modal fade" id="modall" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header float-right">
+          <h5>User details</h5>
+          <div class="text-right">
+            <i data-dismiss="modal" aria-label="Close" class="fa fa-close"></i>
+          </div>
+        </div>
+        <div class="modal-body">
+            
+  
+  
+          <div>
+            
+            <table class="table table-bordered">
+    <thead>
+      <tr>
+        <th scope="col">#</th>
+        <th scope="col">Category</th>
+        <th scope="col">Del</th>
+      </tr>
+    </thead>
+    <tbody>
+        {% for c in cat %}
+      <tr>
+       <th>{{counterloop}}</th>
+        <th scope="row">{{c.name}}</th>
+
+        {% endfor %}
+        
+       
+      </tr>
+    
+    </tbody>
+  </table>
+  
+          </div>
+  
+  
+        </div> -->
+        <!-- <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+          <button type="button" class="btn btn-primary">Save changes</button>
+        </div>
+      </div>
+    </div>
+  </div> -->
+
+
+<div class="container col-md-5 mt-5 ">
+    <div >
+        <!-- <div class="container">
+
+            <div class="height d-flex justify-content-center align-items-center">
+          
+              <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#modall">
+               User details
+              </button>
+          
+              
+            </div>
+            
+          </div> -->
+    <div style="text-align: center ;" class="top_link"><h1>ADD INCOME , EXPENSE DETAILS</h1></div>
+    <div class="card-title"  ><h2 class="text-center mt-5">ADD DETAILS </h2></div>
+    {% if messages %}
+    {% for message in messages %}
+    <div   id="message_container" class="alert alert-danger" role="alert">
+        {{message}}
+        {% endfor %}
+    </div>
+    {% endif %}
+    <form  class="form-check badge-pill " method="post">
+        {% csrf_token %}
+        <div class="form-group">
+           
+    
+           <label for="expenseCategory"><a href="/category/">Expense Category</a></label><button type="button" class=" text-center border-0"
+                data-bs-toggle="modal" data-bs-target="#exampleModal">+</button>
+                
+    
+
+
+
+
+<select class="form-control" name="cat_name">
+    {% for c in categoryy %}
+   <div><option value="{{c.id}}">{{c.name}}</option></div>
+   
+    {% endfor %}
+</select>
+</div>
+
+    <label for="amount">Amount</label>
+    <input type="number" class="form-control" name="amount" step="0.01" required>
+
+    <label >Date:</label>
+    <input type="date"  name="date" class="form-control">
+    <div class="form-group">
+        <label>person</label>
+        <input type="text" class="form-control" name="person" required>
+    </div>
+    <div class="form-group">
+        <label for="amount">payment mode</label>
+        <select class="form-control" name="pay_mode">
+            {% for m in pay_mode %}
+            <option value="{{m.id}}">{{m.mode}}</option>
+            {% endfor %}
+        </select>
+    </div>
+    <div class="form-group">
+        <label for="transactionType">Transaction Type</label>
+        <select class="form-control" name="transaction_type">
+            <option value="RECIEVED">RECIEVED</option>
+            <option value="PAYED">PAID</option>
+        </select>
+    </div>
+    <button type="submit" style="background-color:  rgba(31, 80, 243, 0.9); border: white;" class="btn btn-danger">Submit</button>
+    </form></div></div>
+
+
+
+<!-- cat modal
+<div class="modal fade" id="exampleModall" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header float-right">
+          <h5>User details</h5>
+          <div class="text-right">
+            <i data-dismiss="modal" aria-label="Close" class="fa fa-close"></i>
+          </div>
+        </div>
+        <div class="modal-body">
+            
+  
+  
+          <div>
+            
+            <table class="table table-bordered">
+    <thead>
+      <tr>
+        <th scope="col">#</th>
+        <th scope="col">First</th>
+        <th scope="col">Last</th>
+        <th scope="col">Handle</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <th scope="row">1</th>
+        <td>Samso</td>
+        <td>Natto</td>
+        <td>@samso</td>
+      </tr>
+      <tr>
+        <th scope="row">2</th>
+        <td>Tinor</td>
+        <td>Horton</td>
+        <td>@tinor_har</td>
+      </tr>
+      <tr>
+        <th scope="row">3</th>
+        <td>Mythor</td>
+        <td>Bully</td>
+        <td>@myth_tobo</td>
+      </tr>
+    </tbody>
+  </table>
+  
+          </div>
+  
+  
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+          <button type="button" class="btn btn-primary">Save changes</button>
+        </div>
+      </div>
+    </div>
+  </div>
+ -->
+
+
+
+
+<!-- Modal -->
+<div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel"
+aria-hidden="true">
+<div class="modal-dialog">
+    <div class="modal-content">
+        <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">Add Category</h5>
+
+        </div>
+
+        <form method="post" action="http://localhost:8000/add_category/">
+        <div class="modal-body">
+                {%csrf_token%}
+            <input name="add_category" placeholder="add_category" class="form-control" type="text" value>
+            <input name="val" value="0" type="hidden">
+        </div>
+        <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">close</button>
+            <button type="submit" class="btn btn-primary ">add</button>
+            
+        </form>
+        </div>
+</div>
+</div>
+
+
+
+  <!-- Modal -->
+  
+  
+
+<body>
+    <script>
+        var message_ele = document.getElementById("message_container");
+        setTimeout(function () {
+            message_ele.style.display = "none";
+        }, 3000);
+    </script>
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+    {% endblock body %}

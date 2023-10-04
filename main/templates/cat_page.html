@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <table border="1">
+        <th>category_name</th>
+        <th>delete</th>
+    {% for c in cat %}
+    <tr>
+</tr>
+<tr>
+    <td>{{c.name}}</td>
+    <!-- <td><a href="{% url 'delete_cat' c.id %}" >d</a></td> -->
+    
+</tr>
+{% endfor %}
+
+</table>
+</body>
+</html>
