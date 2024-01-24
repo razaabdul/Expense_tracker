@@ -71,8 +71,8 @@
        
         <div class="col-md-4">
             <div class="balance-box text-center">
-                <h3>Total Expense</h3>
-                <p class="balance-value">₹ {{profile.expenses}}</p>
+                <h3>{{m_name}} Expense</h3>
+                <p class="balance-value">₹ {{monthly_expense}}</p>
             </div>
         </div>
     </div>
@@ -170,7 +170,8 @@
                         
                         {% endfor %}
                         
-                        <div style="display: flex;"><p> Total </p>&nbsp; {{monthly_expense}}</div>
+                        <div style="display: flex;"><p> Total Expense </p>&nbsp; {{monthly_expense}}</div>
+                        <div style="display: flex;"><p> Total Income </p>&nbsp; {{total_income}}</div>
                         
                     </div>
                       </thead>

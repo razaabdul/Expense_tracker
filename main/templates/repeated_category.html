@@ -17,13 +17,18 @@
         </thead>
         <tbody>
             {%  for key , value  in d %}
-          <tr>
-            <td>{{key}}</td>
-            <td>{{value.0}}</td>
-            <td>{{value.1}}₹</td>
-        </tr>
-        {% endfor %}
-        
+          
+            <tr>
+              <td>{{key.name}}</td>
+              <td>{{value.0}}</td>
+              <td>{{value.1}}₹</td>
+          
+            </tr>   
+            
+                 
+               {% endfor %}
+     
+    
 
         </tbody>
       </table>

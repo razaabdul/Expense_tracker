@@ -178,7 +178,7 @@ body {
     </style>
 </head>
 {% endblock header %}
-<nav style="height: 100px;" class="navbar navbar-expand-lg navbar-dark bg-primary">
+<nav style="height: 100px;" class="navbar navbar-expand-lg navbar-dark bg-primary justify-content-between ">
     <nav class="navbar navbar-expand-lg navbar-dark bg-primary">
         <div> <p style="color: white; font-size: xx-large;"  class="transaction-date">{{request.user}}</p></div>&nbsp;&nbsp;
    <div class="container">
@@ -192,13 +192,13 @@ body {
                <a style="color: white;" class="nav-link" href="/graph/">Chart</a>
            </li>    
           
-               <a style="color: white;" class="nav-link" href="/yearly_expense/">Yearly Expense</a>
+               <a style="color: white;" class="nav-link" href="/yearly_expense/">YearlyExpense</a>
            </li> 
           
            
          
            <li class="nav-item">
-               <a style="color: white;" class="nav-link" href="/monthly_expense/">Monthly Chart</a>
+               <a style="color: white;" class="nav-link" href="/monthly_expense/">MonthlyChart</a>
                
             </li>
 
@@ -211,10 +211,12 @@ body {
 </div>
 <div>
 </nav>
-<a style="color: white;font-size: 20px; margin-left: 900px;" class="nav-link" href="/logout/">Logout</a><br>
+<div class="d-flex">
+<a style="color: white;font-size: 20px;" class="nav-link" href="/logout/">Logout</a><br>
 <a style="color: white; font-size: 20px;" class="nav-link" href="/add/">Add </a>
-
+</div>
 </nav>
+</div>
 <body>
 {%block body %}
 {% endblock body %}

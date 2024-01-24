@@ -2,7 +2,7 @@ from django.http import FileResponse
 from django.shortcuts import get_object_or_404
 from django.http import HttpResponse
 from io import BytesIO
-
+from reportlab.pdfgen import canvas
 # from .models import Transaction  # Import your Transaction model
 from django.shortcuts import render,redirect
 from django.http import HttpResponse
@@ -21,23 +21,17 @@ import base64
 from collections import Counter
 # from fpdf import FPDF
 from django.template.loader import get_template
-
-
-
 plt.switch_backend('agg') # used to solve main thread error
 def repeated(request):
     exp=expense.objects.filter(user=request.user,transaction_type="PAYED")
     cat=Category.objects.filter(user=request.user)
-
     str=""
     v=0
     dict={}       
     for c in cat:
         for e in exp:
             if c.name == e.category_name.name and e.transaction_type == "PAYED": 
-                    # print(c.name,"---------",e.category_name)
                     c.val += float(e.amount)
-                    # print('amount-----',e.amount)        
         v=c.val
         str=c.name
         if str in dict:
@@ -48,11 +42,8 @@ def repeated(request):
         for key in list(dict.keys()):
             if dict[key]==0:
                 del dict[key]
-            
     lab=list(dict.keys())
-   
     size=list(dict.values())
-  
     dict2={}
     value=[]
     v=[]
@@ -64,20 +55,18 @@ def repeated(request):
             value=[dict2[str][0]+1,dict2[str][1]+(float(amt))]
             dict2[str]=value
             c += float(amt)
-
         else:
             value=[1,float(amt)]
             dict2[str]=value 
             c += float(amt)   
-
-    print("=>",c)    
-    dict=(dict2.items())
-    
-        
+    print("======>",c)    
+    dictt=(dict2.items())
+    print("----------------------",dictt)
+       
     plt.figure()  
     plt.pie(size,labels=lab,radius=0.9,autopct="%0.1f%%",startangle=150)
     plt.savefig('main/static/pie_chart.png')
-    return render(request,'repeated_category.html',{'d':dict,'total':c})
+    return render(request,'repeated_category.html',{'d':dictt,'total':c,'catt':cat})
 
 def user_info(request):
     return render(request,'user_info.html')
@@ -130,6 +119,7 @@ def monthly_expense(request,year=datetime.now().year,month=datetime.now().strfti
     user_Profile=profile.objects.filter(user=request.user).first()
     dict={}
     value=0
+    income=0
     month_exp=0
     select_month_name=month
     if request.GET.get('months'):
@@ -137,10 +127,13 @@ def monthly_expense(request,year=datetime.now().year,month=datetime.now().strfti
     select_month_name=select_month_name.capitalize()
     current_m=list(calendar.month_name).index(select_month_name) #it will convert string into integer value (list(calender.month name select your months from calender))
     expense_date=expense.objects.filter(user=request.user,date__month=current_m,transaction_type="PAYED").order_by()[::1]
+    Income=expense.objects.filter(user=request.user,date__month=current_m,transaction_type="RECIEVED")
     for ex in expense_date:
         value+=float(ex.amount)
         month_exp=value
-        
+    for inc in Income:
+        income+=inc.amount
+
     for e in expense_date:
         dict[e.category_name.name]=float(e.amount)
 
@@ -159,7 +152,7 @@ def monthly_expense(request,year=datetime.now().year,month=datetime.now().strfti
     plt.axis('equal')
     plt.title(select_month_name)
     plt.savefig('main/static/pie_chart_2.png')
-    return render(request,"monthly_expense.html",context={'profile':user_Profile,'expense':expense_date,'monthly_expense':month_exp,'m_name':select_month_name})
+    return render(request,"monthly_expense.html",context={'total_income':income,'profile':user_Profile,'expense':expense_date,'monthly_expense':month_exp,'m_name':select_month_name})
 def transaction(request):
     user_Profile=profile.objects.filter(user=request.user).first()
     user_expense=expense.objects.filter(user=request.user).order_by('-id')
@@ -368,7 +361,7 @@ def update(request,id):
     if request.method=="POST":
         user_person = request.POST.get('person')
         cat_id = request.POST.get('cat_name')
-        date=request.POST.get('date("%Y-%m-%d %H:%M:%S")')
+        date=request.POST.get('date')
         cat_name = Category.objects.get(id=cat_id)
         amount = request.POST.get('amount')
         pay_mod_id = request.POST.get('pay_mode')
@@ -510,6 +503,7 @@ def income_update(request,id):
         update_person=request.POST.get('person')
         update_deposite=request.POST.get('amount')
         update_purpose=request.POST.get('Purpose')
+        
 
         user_profilee.balance = float(user_profilee.balance) - float(update_query.u_income)
         user_profilee.income = float(user_profilee.income)- float(update_query.u_income)
@@ -659,7 +653,7 @@ def generate_pdf(request,year=datetime.now().year,month=datetime.now().strftime(
     month_name=month_name.capitalize()
     l=list(calendar.month_name).index(month_name)
     # Create a BytesIO buffer to receive the PDF data .
-    p = canvas.Canvas(response)
+    p =canvas.Canvas(response)
     p.drawString(100, 750, "User Transaction Report")
     lst=[]
     y = 700
